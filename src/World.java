@@ -36,7 +36,7 @@ public class World {
 	 */
 	public World(){
 		try {
-			readFile(LVZEROFILE);
+			readFile(LVONEFILE);
 			// Player
 			player = new Player(PLAYERINITX, PLAYERINITY);
 			sprites.add(player);
@@ -120,6 +120,22 @@ public class World {
 			    case "longLog":
 			    	isMovingRight = Boolean.parseBoolean(splits[3]);
 			    	sprites.add(new LongLog(x, y, isMovingRight));
+			    	break;
+			    case "turtle":
+			    	isMovingRight = Boolean.parseBoolean(splits[3]);
+			    	sprites.add(new Turtles(x, y, isMovingRight));
+			    	break;
+			    case "racecar":
+			    	isMovingRight = Boolean.parseBoolean(splits[3]);
+			    	sprites.add(new Racecar(x, y, isMovingRight));
+			    	break;
+			    case "bike":
+			    	isMovingRight = Boolean.parseBoolean(splits[3]);
+			    	sprites.add(new Bike(x, y, isMovingRight));
+			    	break;
+			    case "bulldozer":
+			    	isMovingRight = Boolean.parseBoolean(splits[3]);
+			    	sprites.add(new Bulldozer(x, y, isMovingRight));
 			    	break;
 			    default:
 			    	break;
