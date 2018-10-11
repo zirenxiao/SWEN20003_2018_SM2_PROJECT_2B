@@ -36,7 +36,7 @@ public class Sprite {
 		image.draw(x, y);
 	}
 	
-	public void contactSprite(Sprite other) {
+	public void contactSprite(Sprite other, int delta) {
 		// Should be called when one sprite makes contact with another. 
 	}
 

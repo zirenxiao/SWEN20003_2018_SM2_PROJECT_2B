@@ -63,7 +63,7 @@ public class World {
 			sprite.update(input, delta);
 			for (Sprite other:sprites) {
 				if (sprite.isContactWith(other)) {
-					sprite.contactSprite(other);
+					sprite.contactSprite(other, delta);
 				}
 			}
 		}

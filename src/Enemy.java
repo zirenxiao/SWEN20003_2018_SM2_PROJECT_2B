@@ -7,7 +7,7 @@ public class Enemy extends MovingObjects {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void contactSprite(Sprite other) {
+	public void contactSprite(Sprite other, int delta) {
 		if (other instanceof Player) {
 			((Player) other).loseLife();
 		}
