@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -19,6 +20,11 @@ public class World {
     private static final String LVZEROFILE = "assets/levels/0.lvl";
     private static final String LVONEFILE = "assets/levels/1.lvl";
     private static final String SPLITER = ",";
+    private static final int RANDOMMIN = 25000;
+	private static final int RANDOMMAX = 35000;
+	private int overallTimePass = 0;
+	private int randomNum;
+    private int logNum = 0;
 	
 	private static World world = null;
 	
@@ -30,6 +36,10 @@ public class World {
 	 * @throws SlickException
 	 */
 	public World(){
+		Random random = new Random();
+		this.randomNum = random.nextInt((RANDOMMAX - RANDOMMIN) + 1) + RANDOMMIN;
+		System.out.println(this.randomNum);
+		
 		init(LVZEROFILE);
 	}
 	
@@ -45,6 +55,7 @@ public class World {
 	}
 	
 	private void init(String fileName) {
+		logNum = 0;
 		try {
 			readFile(fileName);
 			// Player
@@ -62,7 +73,21 @@ public class World {
 	 */
 	public void update(Input input, int delta) {
 		int goalCount = 0;
+		overallTimePass += delta;
+		
+		if (overallTimePass > randomNum) {
+//			Sprite sprite = new ExtraLife();
+			overallTimePass = 0;
+		}
+		
 		for (Sprite sprite:sprites) {
+			if (sprite instanceof ExtraLife) {
+				ExtraLife extraLife = (ExtraLife) sprite;
+				if (extraLife.isDead()) {
+					sprites.remove(sprite);
+				}
+			}
+			
 			sprite.update(input, delta);
 			for (Sprite other:sprites) {
 				if (sprite.isContactWith(other)) {
@@ -131,10 +156,12 @@ public class World {
 			    case "log":
 			    	isMovingRight = Boolean.parseBoolean(splits[3]);
 			    	sprites.add(new Log(x, y, isMovingRight));
+			    	logNum++;
 			    	break;
 			    case "longLog":
 			    	isMovingRight = Boolean.parseBoolean(splits[3]);
 			    	sprites.add(new LongLog(x, y, isMovingRight));
+			    	logNum++;
 			    	break;
 			    case "turtle":
 			    	isMovingRight = Boolean.parseBoolean(splits[3]);

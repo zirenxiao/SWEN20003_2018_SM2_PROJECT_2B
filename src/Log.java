@@ -1,6 +1,6 @@
 import org.newdawn.slick.SlickException;
 
-public class Log extends Rideable {
+public class Log extends LifeRideable {
 	private static final float SPEED = 0.1f;
 	private static final String LOGFILE = "assets/longlog.png";
 
