@@ -106,6 +106,9 @@ public class World {
 			    case "grass":
 			    	sprites.add(new Grass(x, y));
 			    	break;
+			    case "tree":
+			    	sprites.add(new Tree(x, y));
+			    	break;
 			    case "bus":
 			    	isMovingRight = Boolean.parseBoolean(splits[3]);
 			    	sprites.add(new Obstacles(x, y, isMovingRight));

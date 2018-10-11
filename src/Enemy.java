@@ -8,9 +8,9 @@ public class Enemy extends MovingObjects {
 	}
 
 	public void contactSprite(Sprite other, int delta) {
-		if (other instanceof Player) {
-			((Player) other).loseLife();
-		}
+//		if (other instanceof Player) {
+//			((Player) other).loseLife();
+//		}
 	}
 
 }

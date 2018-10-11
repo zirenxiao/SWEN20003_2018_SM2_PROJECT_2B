@@ -50,6 +50,20 @@ public class BoundingBox {
 		height = h * FUZZ;
 	}
 	
+	public void setWidthPlus(float w) {
+		width = width + w;
+	}
+	public void setHeightPlus(float h) {
+		height = height + h;
+	}
+	public void setLeftPlus(float w) {
+		left = left + w;
+	}
+	public void setTopPlus(float h) {
+		top = top + h;
+	}
+	
+	
 	public float getLeft() {
 		return left;
 	}
@@ -76,4 +90,5 @@ public class BoundingBox {
 			  || other.top > getBottom()
 			  || other.getBottom() < top);
 	}
+
 }
