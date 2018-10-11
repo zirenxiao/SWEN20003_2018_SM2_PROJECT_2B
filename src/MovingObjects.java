@@ -13,7 +13,7 @@ public class MovingObjects extends Sprite{
 		this.goRight = goRight;
 	}
 	
-	public void setGoLeft(boolean goLeft) {
+	public void setGoLeft(boolean goRight) {
 		this.goRight = goRight;
 	}
 
@@ -29,5 +29,13 @@ public class MovingObjects extends Sprite{
 		if (this.getX() < 0) {
 			this.setX(App.SCREEN_WIDTH);
 		}
+	}
+
+	public float getSpeed() {
+		return speed;
+	}
+
+	public boolean isGoRight() {
+		return goRight;
 	}
 }
