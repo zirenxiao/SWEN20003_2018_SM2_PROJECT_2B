@@ -13,5 +13,10 @@ public class Life extends Sprite {
 	public void update (Input input, int delta) {
 		
 	}
+	
+	public void render() {
+		// This should be pretty simple.
+		this.getImage().drawCentered(this.getX(), this.getY());
+	}
 
 }

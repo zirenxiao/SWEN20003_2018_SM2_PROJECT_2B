@@ -109,5 +109,11 @@ public class Sprite {
 		BoundingBox otherBoundBox = other.getBoundBox();
 		return bb.intersects(otherBoundBox);
 	}
+
+	public Image getImage() {
+		return image;
+	}
+	
+	
 	
 }
