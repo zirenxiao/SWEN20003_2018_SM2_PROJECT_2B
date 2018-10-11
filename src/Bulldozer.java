@@ -9,5 +9,4 @@ public class Bulldozer extends Enemy{
 		super(BULLDOZERFILE, x, y, SPEED, goRight);
 		// TODO Auto-generated constructor stub
 	}
-
 }

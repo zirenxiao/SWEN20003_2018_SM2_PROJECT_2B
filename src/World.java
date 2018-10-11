@@ -20,27 +20,17 @@ public class World {
     private static final String LVONEFILE = "assets/levels/1.lvl";
     private static final String SPLITER = ",";
 	
-	// Player instance
-	private Player player;
-	
 	private static World world = null;
 	
 	private ArrayList<Sprite> sprites = new ArrayList<Sprite>(); 
+	private ArrayList<Integer> treePosition = new ArrayList<Integer>();
 	
 	
 	/**
 	 * @throws SlickException
 	 */
 	public World(){
-		try {
-			readFile(LVONEFILE);
-			// Player
-			player = new Player();
-			sprites.add(player);
-		} catch (SlickException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		init(LVZEROFILE);
 	}
 	
 	
@@ -54,11 +44,24 @@ public class World {
 		return world;
 	}
 	
+	private void init(String fileName) {
+		try {
+			readFile(fileName);
+			// Player
+			sprites.add(new Player());
+			initGoal();
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	/** Update all of the sprites in the game
 	 * @param input
 	 * @param delta
 	 */
 	public void update(Input input, int delta) {
+		int goalCount = 0;
 		for (Sprite sprite:sprites) {
 			sprite.update(input, delta);
 			for (Sprite other:sprites) {
@@ -66,6 +69,17 @@ public class World {
 					sprite.contactSprite(other, delta);
 				}
 			}
+			if (sprite instanceof Goal) {
+				if (!((Goal) sprite).isFound()) {
+					goalCount++;
+					
+				}
+				
+			}
+		}
+		if (goalCount == 0) {
+			sprites.clear();
+			init(LVONEFILE);
 		}
 	}
 	
@@ -107,6 +121,7 @@ public class World {
 			    	sprites.add(new Grass(x, y));
 			    	break;
 			    case "tree":
+			    	updateTreePos(x, y);
 			    	sprites.add(new Tree(x, y));
 			    	break;
 			    case "bus":
@@ -153,4 +168,34 @@ public class World {
 		}
 		
 	}
+	
+	private void initGoal() throws SlickException {
+		for (int i=0; i<=App.SCREEN_WIDTH; i+=TILESIZE) {
+			boolean found = false;
+			for (int temp:treePosition) {
+				if (i == temp) {
+					found = true;
+					break;
+				}
+			}
+			if (!found) {
+				sprites.add(new Goal(i, TILESIZE));
+			}
+				
+		}
+	}
+	
+	
+	
+	public ArrayList<Sprite> getSprites() {
+		return sprites;
+	}
+
+
+	private void updateTreePos(float x, float y) {
+		if (Math.round(y) == TILESIZE) {
+			treePosition.add(Math.round(x));
+		}
+	}
+	
 }

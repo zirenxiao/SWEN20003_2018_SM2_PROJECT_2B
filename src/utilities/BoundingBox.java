@@ -90,5 +90,12 @@ public class BoundingBox {
 			  || other.top > getBottom()
 			  || other.getBottom() < top);
 	}
+	
+	public boolean isOnOther(BoundingBox other) {
+		return !(other.left + 48> getRight()
+				  || other.getRight() -48 < left
+				  || other.top > getBottom()
+				  || other.getBottom() < top);
+	}
 
 }
