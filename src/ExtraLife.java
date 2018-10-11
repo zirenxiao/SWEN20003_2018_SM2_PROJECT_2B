@@ -9,6 +9,7 @@ public class ExtraLife extends Sprite{
 	private static final int LIFESPAN = 14000;
 	private static final int MOVEINTERVAL = 2000;
 	private boolean moveRightOnLog = true;
+	private boolean isDestoryed = false;
 	private int moveTimePass = 0;
 	private int life = 0;
 	
@@ -24,9 +25,22 @@ public class ExtraLife extends Sprite{
 	}
 	
 	public void contactSprite(Sprite other, int delta) {
-		if (other instanceof Player) {
-			((Player) other).loseLife();
+		if (!isDestoryed) {
+			if (other instanceof Player) {
+				try {
+					((Player) other).addLife();
+					isDestoryed = true;
+				} catch (SlickException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
+	}
+	
+	public void render() {
+		if (!isDestoryed)
+			super.render();
 	}
 	
 	public void moveOnLog(BoundingBox logBoundingBox) {

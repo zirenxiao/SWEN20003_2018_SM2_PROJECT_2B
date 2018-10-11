@@ -20,8 +20,8 @@ public class World {
     private static final String LVZEROFILE = "assets/levels/0.lvl";
     private static final String LVONEFILE = "assets/levels/1.lvl";
     private static final String SPLITER = ",";
-    private static final int RANDOMMIN = 2500;
-	private static final int RANDOMMAX = 3500;
+    private static final int RANDOMMIN = 25000;
+	private static final int RANDOMMAX = 35000;
 	private int overallTimePass = 0;
 	private int randomNum;
     private int logNum = 0;
