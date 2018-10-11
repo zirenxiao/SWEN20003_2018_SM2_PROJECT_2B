@@ -76,6 +76,7 @@ public class World {
 		int goalCount = 0;
 		overallTimePass += delta;
 
+		// add a new extra life to a random log or long log
 		if (overallTimePass > randomNum) {
 			Random random = new Random();
 			int randomLog = random.nextInt(this.logNum) + 1;
@@ -86,7 +87,8 @@ public class World {
 					LifeRideable lifeRideable = (LifeRideable) sprite;
 					i++;
 					if (i == randomLog) {
-						newSprite = new ExtraLife(lifeRideable.getX(), lifeRideable.getY());
+						newSprite = new ExtraLife(lifeRideable.getX(), 
+								lifeRideable.getY());
 						lifeRideable.addExtraLife(newSprite);
 					}
 				}
@@ -98,6 +100,7 @@ public class World {
 		for (int spriteNum = 0; spriteNum < sprites.size(); spriteNum++) {
 			Sprite sprite = sprites.get(spriteNum);
 
+			//remove dead extra lives
 			if (sprite instanceof LifeRideable) {
 				LifeRideable lifeRideable = (LifeRideable)sprite;
 				ArrayList<ExtraLife> extraLives = lifeRideable.getExtraLives();

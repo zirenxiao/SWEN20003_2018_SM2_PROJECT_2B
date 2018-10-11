@@ -67,6 +67,9 @@ public class Player extends Sprite {
 		}
 	}
 	
+	/** When add a life, a new life will be shown
+	 * 
+	 */
 	public void addLife() throws SlickException {
 		lifeLeft ++;
 		Life life = new Life(LIFEINITIALX + lives.size() * LIFEDIST, LIFEINITIALY);
