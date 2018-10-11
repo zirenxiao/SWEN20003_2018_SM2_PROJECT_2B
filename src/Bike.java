@@ -1,3 +1,4 @@
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
 public class Bike extends Enemy{
@@ -10,6 +11,14 @@ public class Bike extends Enemy{
 	public Bike(float x, float y, boolean goRight) throws SlickException {
 		super(BIKEFILE, x, y, SPEED, goRight);
 		// TODO Auto-generated constructor stub
+	}
+	
+	public void update(Input input, int delta) {
+		super.update(input, delta);
+		System.out.println(this.getX());
+		if (this.getX() <= XBOUND1 || this.getX() >= XBOUND2){
+			this.setGoRight(!this.isGoRight());
+		}
 	}
 
 }
