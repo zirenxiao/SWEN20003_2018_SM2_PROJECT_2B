@@ -57,6 +57,9 @@ public class Player extends Sprite {
 		}
 	}
 	
+	/* Render a player, including all lives
+	 * @see Sprite#render()
+	 */
 	public void render() {
 		super.render();
 		for (Life life : lives) {
@@ -64,14 +67,13 @@ public class Player extends Sprite {
 		}
 	}
 	
-	public boolean isGoal() {
-		return false;
-	}
-	
 	public void addLife() {
 		
 	}
 	
+	/** When lose a life, the player will reset
+	 * to its initial position
+	 */
 	public void loseLife() {
 		if (lifeLeft > 1) {
 			this.lives.remove(lifeLeft - 1);
@@ -83,6 +85,9 @@ public class Player extends Sprite {
 		
 	}
 	
+	/** Reset the player into initial position
+	 * 
+	 */
 	public void resetPosition() {
 		this.setX(PLAYERINITX);
 		this.setY(PLAYERINITY);

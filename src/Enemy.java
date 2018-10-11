@@ -7,10 +7,14 @@ public class Enemy extends MovingObjects {
 		// TODO Auto-generated constructor stub
 	}
 
+	/* When an enemy contact the player, the player would be
+	 * killed
+	 * @see Sprite#contactSprite(Sprite, int)
+	 */
 	public void contactSprite(Sprite other, int delta) {
-//		if (other instanceof Player) {
-//			((Player) other).loseLife();
-//		}
+		if (other instanceof Player) {
+			((Player) other).loseLife();
+		}
 	}
 
 }

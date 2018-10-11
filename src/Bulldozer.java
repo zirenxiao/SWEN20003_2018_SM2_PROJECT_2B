@@ -12,25 +12,35 @@ public class Bulldozer extends Enemy{
 		// TODO Auto-generated constructor stub
 	}
 	
+	/* Bulldozer does not kill player directly, it will
+	 * push player until out of screen, the player should then
+	 * lose a life.
+	 * @see Enemy#contactSprite(Sprite, int)
+	 */
 	public void contactSprite(Sprite other, int delta) {
 		if (other instanceof Player) {
-			if (this.isGoRight() && other.getBoundBox().getLeft() + World.TILESIZE >= this.getBoundBox().getRight()) {
-				other.setPlusX(delta * this.getSpeed());
-			}else if (other.getBoundBox().getRight() - World.TILESIZE < this.getBoundBox().getLeft()) {
-				other.setPlusX(-delta * this.getSpeed());
+			if (this.isGoRight()) {
+				if (other.getBoundBox().getLeft() + World.TILESIZE >= this.getBoundBox().getRight()) {
+					other.setX(this.getBoundBox().getRight() + World.TILESIZE / 2);
+				}
+				if (other.getBoundBox().getLeft() + World.TILESIZE >= App.SCREEN_WIDTH) {
+					((Player) other).loseLife();
+				}
 			}else {
-				System.out.println("other");
-				other.setY(this.getY());
+				if (other.getBoundBox().getRight() - World.TILESIZE < this.getBoundBox().getLeft()) {
+					other.setX(this.getBoundBox().getLeft() - World.TILESIZE / 2);
+				}
+				if (other.getBoundBox().getLeft() - World.TILESIZE <= 0) {
+					((Player) other).loseLife();
+				}
 			}
+			
 		}
 	}
 	
 	public boolean isContactWith(Sprite other) {
-//		System.out.println("this:"+this.getY()); 
-//		System.out.println("other:"+other.getY()); 
-		if (this.getY() != other.getY())
-			return false;
 		BoundingBox otherBoundBox = other.getBoundBox();
 		return this.getBoundBox().intersects(otherBoundBox);
 	}
+	
 }

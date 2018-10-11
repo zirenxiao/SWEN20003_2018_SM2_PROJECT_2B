@@ -12,11 +12,11 @@ public class MovingObjects extends Sprite{
 		this.speed = speed;
 		this.goRight = goRight;
 	}
-	
-	public void setGoRight(boolean goRight) {
-		this.goRight = goRight;
-	}
 
+	/* Update the current location of a
+	 * moving object
+	 * @see Sprite#update(org.newdawn.slick.Input, int)
+	 */
 	public void update(Input input, int delta) {
 		super.update(input, delta);
 		if (goRight) {
@@ -32,11 +32,22 @@ public class MovingObjects extends Sprite{
 		}
 	}
 
+	/** Get speed of a moving object
+	 * @return
+	 */
 	public float getSpeed() {
 		return speed;
 	}
 
+	/** Whether the moving object moves from left to
+	 * right
+	 * @return
+	 */
 	public boolean isGoRight() {
 		return goRight;
+	}
+	
+	public void setGoRight(boolean goRight) {
+		this.goRight = goRight;
 	}
 }
