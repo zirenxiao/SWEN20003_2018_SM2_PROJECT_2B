@@ -76,12 +76,16 @@ public class Player extends Sprite {
 		if (lifeLeft > 1) {
 			this.lives.remove(lifeLeft - 1);
 			lifeLeft--;
-			this.setX(PLAYERINITX);
-			this.setY(PLAYERINITY);
+			this.resetPosition();
 		}else {
 			System.exit(0);
 		}
 		
+	}
+	
+	public void resetPosition() {
+		this.setX(PLAYERINITX);
+		this.setY(PLAYERINITY);
 		
 	}
 }
