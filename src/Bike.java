@@ -15,8 +15,7 @@ public class Bike extends Enemy{
 	
 	public void update(Input input, int delta) {
 		super.update(input, delta);
-		System.out.println(this.getX());
-		if (this.getX() <= XBOUND1 || this.getX() >= XBOUND2){
+		if ((this.getX() <= XBOUND1 && !this.isGoRight()) || (this.getX() >= XBOUND2 && this.isGoRight())){
 			this.setGoRight(!this.isGoRight());
 		}
 	}
