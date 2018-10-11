@@ -13,7 +13,7 @@ public class MovingObjects extends Sprite{
 		this.goRight = goRight;
 	}
 	
-	public void setGoLeft(boolean goRight) {
+	public void setGoRight(boolean goRight) {
 		this.goRight = goRight;
 	}
 

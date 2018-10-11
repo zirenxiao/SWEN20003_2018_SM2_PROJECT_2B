@@ -9,7 +9,7 @@ public class Enemy extends MovingObjects {
 
 	public void contactSprite(Sprite other) {
 		if (other instanceof Player) {
-			System.exit(0);
+			((Player) other).loseLife();
 		}
 	}
 

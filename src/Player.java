@@ -7,15 +7,18 @@ public class Player extends Sprite {
 	private static final float SPEED = 48;
 	private static final String PLAYERFILE = "assets/frog.png";
 	private ArrayList<Life> lives = new ArrayList<Life>();
-	private static final int LIFENUMBER = 3;
-	private static final float INITIALX = 24;
-	private static final float INITIALY = 744;
+	private static final float LIFEINITIALX = 24;
+	private static final float LIFEINITIALY = 744;
 	private static final float LIFEDIST = 32;
+	private static final float PLAYERINITX = 512;
+	private static final float PLAYERINITY = 720;
+	
+	private int lifeLeft = 10;
 
-	public Player(float x, float y) throws SlickException {
-		super(PLAYERFILE, x, y);
-		for (int i = 0; i < LIFENUMBER; i++) {
-			Life life = new Life(INITIALX + i * LIFEDIST, INITIALY);
+	public Player() throws SlickException {
+		super(PLAYERFILE, PLAYERINITX, PLAYERINITY);
+		for (int i = 0; i < lifeLeft; i++) {
+			Life life = new Life(LIFEINITIALX + i * LIFEDIST, LIFEINITIALY);
 			lives.add(life);
 		}
 	}
@@ -69,7 +72,16 @@ public class Player extends Sprite {
 		
 	}
 	
-	public void reduceLife() {
+	public void loseLife() {
+		if (lifeLeft > 1) {
+			this.lives.remove(lifeLeft - 1);
+			lifeLeft--;
+			this.setX(PLAYERINITX);
+			this.setY(PLAYERINITY);
+		}else {
+			System.exit(0);
+		}
+		
 		
 	}
 }

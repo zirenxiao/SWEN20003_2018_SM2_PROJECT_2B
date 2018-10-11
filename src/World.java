@@ -15,9 +15,6 @@ import org.newdawn.slick.SlickException;
  */
 public class World {
 	public static final float TILESIZE = 48;
-
-	private static final float PLAYERINITX = 512;
-	private static final float PLAYERINITY = 720;
 	
     private static final String LVZEROFILE = "assets/levels/0.lvl";
     private static final String LVONEFILE = "assets/levels/1.lvl";
@@ -38,7 +35,7 @@ public class World {
 		try {
 			readFile(LVONEFILE);
 			// Player
-			player = new Player(PLAYERINITX, PLAYERINITY);
+			player = new Player();
 			sprites.add(player);
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block

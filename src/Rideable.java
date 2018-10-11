@@ -7,4 +7,9 @@ public class Rideable extends MovingObjects {
 		// TODO Auto-generated constructor stub
 	}
 
+	public void contactSprite(Sprite other) {
+		if (other instanceof Player) {
+			System.exit(0);
+		}
+	}
 }
