@@ -33,7 +33,7 @@ public class Sprite {
 	 */
 	public void render() {
 		// This should be pretty simple.
-		image.draw(x, y);
+		image.drawCentered(x, y);
 	}
 	
 	public void contactSprite(Sprite other, int delta) {

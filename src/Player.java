@@ -49,11 +49,11 @@ public class Player extends Sprite {
 		if (this.getX() <= 0) {
 			this.setX(0);
 		}
-		if (this.getY() >= App.SCREEN_HEIGHT - World.TILESIZE) {
-			this.setY(App.SCREEN_HEIGHT - World.TILESIZE);
+		if (this.getY() >= App.SCREEN_HEIGHT) {
+			this.setY(App.SCREEN_HEIGHT);
 		}
-		if (this.getX() >= App.SCREEN_WIDTH - World.TILESIZE) {
-			this.setX(App.SCREEN_WIDTH - World.TILESIZE);
+		if (this.getX() >= App.SCREEN_WIDTH) {
+			this.setX(App.SCREEN_WIDTH);
 		}
 	}
 	
