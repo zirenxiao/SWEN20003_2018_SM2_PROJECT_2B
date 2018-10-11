@@ -20,6 +20,7 @@ public class App extends BasicGame {
     /** screen height, in pixels */
     public static final int SCREEN_HEIGHT = 768;
 
+
     private World world;
 
     public App() {
@@ -30,6 +31,7 @@ public class App extends BasicGame {
     public void init(GameContainer gc)
             throws SlickException {
         world = new World();
+        
     }
 
     /** Update the game state for a frame.

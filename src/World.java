@@ -1,3 +1,8 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.newdawn.slick.Graphics;
@@ -11,26 +16,13 @@ import org.newdawn.slick.SlickException;
 public class World {
 	public static final float TILESIZE = 48;
 
-	private static final float WATERINITY = 336;
-	private static final float WATERFINALY = 48;
-	private static final float GRASSINITY = 672;
-	private static final float GRASSFINALY = 384;
 	private static final float PLAYERINITX = 512;
 	private static final float PLAYERINITY = 720;
-	private static final float BUSINITY = 432;
-	// Bus lines offsets and distances
-	private static final float LINE1OFFSET = 48;
-	private static final float LINE1DIS = 6.5f;
-	private static final float LINE2OFFSET = 0;
-	private static final float LINE2DIS = 5;
-	private static final float LINE3OFFSET = 64;
-	private static final float LINE3DIS = 12;
-	private static final float LINE4OFFSET = 128;
-	private static final float LINE4DIS = 5;
-	private static final float LINE5OFFSET = 250;
-	private static final float LINE5DIS = 6.5f;
-	// Current bus line
-	private int currentLine = 0;
+	
+    private static final String LVZEROFILE = "assets/levels/0.lvl";
+    private static final String LVONEFILE = "assets/levels/1.lvl";
+    private static final String SPLITER = ",";
+	
 	// Player instance
 	private Player player;
 	
@@ -38,30 +30,16 @@ public class World {
 	
 	private ArrayList<Sprite> sprites = new ArrayList<Sprite>(); 
 	
+	
 	/**
 	 * @throws SlickException
 	 */
 	public World(){
 		try {
-			// Grass and water
-			for (float y=WATERFINALY; y<WATERINITY; y+=TILESIZE) {
-				for (int x=0; x<App.SCREEN_WIDTH; x+=TILESIZE) {
-					sprites.add(new Water(x, y));
-				}
-			}
-			for (int x=0; x<App.SCREEN_WIDTH; x+=TILESIZE) {
-				sprites.add(new Grass(x, GRASSINITY));
-				sprites.add(new Grass(x, GRASSFINALY));
-			}
+			readFile(LVZEROFILE);
 			// Player
 			player = new Player(PLAYERINITX, PLAYERINITY);
 			sprites.add(player);
-			// Bus lines
-			this.constructLine(LINE1OFFSET, LINE1DIS);
-			this.constructLine(LINE2OFFSET, LINE2DIS);
-			this.constructLine(LINE3OFFSET, LINE3DIS);
-			this.constructLine(LINE4OFFSET, LINE4DIS);
-			this.constructLine(LINE5OFFSET, LINE5DIS);
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -103,26 +81,51 @@ public class World {
 		}
 	}
 	
-	/** Construct a bus line
-	 * @param offset
-	 * @param distance
-	 * @throws SlickException
-	 */
-	private void constructLine(float offset, float distance)
-			throws SlickException {
-		// Only even line moves from left to right
-		boolean right = (currentLine % 2) != 0;
-		for (float x=offset; x<App.SCREEN_WIDTH; x+=distance*TILESIZE) {
-			sprites.add(new Obstacles(x, 
-					BUSINITY + TILESIZE * currentLine, right));
-		}
-		currentLine++;
-	}
 	
 	/** Add a sprite into list
 	 * @param sprite
 	 */
 	public void addSprite(Sprite sprite) {
 		sprites.add(sprite);
+	}
+	
+	public void readFile(String filePath) {
+		File file = new File(filePath);
+		FileReader fr;
+		try {
+			fr = new FileReader(file);
+			BufferedReader br = new BufferedReader(fr);
+			String line;
+			while((line = br.readLine()) != null){
+			    //process the line
+				String[] splits = line.split(SPLITER);
+				float x = Integer.parseInt(splits[1]);
+				float y = Integer.parseInt(splits[2]);
+			    switch (splits[0]) {
+			    case "water":
+			    	sprites.add(new Water(x, y));
+			    	break;
+			    case "grass":
+			    	sprites.add(new Grass(x, y));
+			    	break;
+			    case "bus":
+			    	boolean isMovingRight = Boolean.parseBoolean(splits[3]);
+			    	sprites.add(new Obstacles(x, y, isMovingRight));
+			    	break;
+			    default:
+			    	break;
+			    }
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			System.exit(0);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 }
