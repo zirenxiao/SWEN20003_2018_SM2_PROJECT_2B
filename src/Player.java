@@ -1,12 +1,23 @@
+import java.util.ArrayList;
+
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
 public class Player extends Sprite {
 	private static final float SPEED = 48;
 	private static final String PLAYERFILE = "assets/frog.png";
+	private ArrayList<Life> lives = new ArrayList<Life>();
+	private static final int LIFENUMBER = 3;
+	private static final float INITIALX = 24;
+	private static final float INITIALY = 744;
+	private static final float LIFEDIST = 32;
 
 	public Player(float x, float y) throws SlickException {
 		super(PLAYERFILE, x, y);
+		for (int i = 0; i < LIFENUMBER; i++) {
+			Life life = new Life(INITIALX + i * LIFEDIST, INITIALY);
+			lives.add(life);
+		}
 	}
 
 	/* Update a player action, including moves to up,
@@ -41,5 +52,24 @@ public class Player extends Sprite {
 		if (this.getX() >= App.SCREEN_WIDTH - World.TILESIZE) {
 			this.setX(App.SCREEN_WIDTH - World.TILESIZE);
 		}
+	}
+	
+	public void render() {
+		super.render();
+		for (Life life : lives) {
+			life.render();
+		}
+	}
+	
+	public boolean isGoal() {
+		return false;
+	}
+	
+	public void addLife() {
+		
+	}
+	
+	public void reduceLife() {
+		
 	}
 }
