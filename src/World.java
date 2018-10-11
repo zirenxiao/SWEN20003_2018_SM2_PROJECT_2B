@@ -20,8 +20,8 @@ public class World {
     private static final String LVZEROFILE = "assets/levels/0.lvl";
     private static final String LVONEFILE = "assets/levels/1.lvl";
     private static final String SPLITER = ",";
-    private static final int RANDOMMIN = 25000;
-	private static final int RANDOMMAX = 35000;
+    private static final int RANDOMMIN = 2500;
+	private static final int RANDOMMAX = 3500;
 	private int overallTimePass = 0;
 	private int randomNum;
     private int logNum = 0;
@@ -38,7 +38,7 @@ public class World {
 	public World(){
 		Random random = new Random();
 		this.randomNum = random.nextInt((RANDOMMAX - RANDOMMIN) + 1) + RANDOMMIN;
-		System.out.println(this.randomNum);
+//		System.out.println(this.randomNum);
 		
 		init(LVZEROFILE);
 	}
@@ -70,21 +70,43 @@ public class World {
 	/** Update all of the sprites in the game
 	 * @param input
 	 * @param delta
+	 * @throws SlickException 
 	 */
-	public void update(Input input, int delta) {
+	public void update(Input input, int delta) throws SlickException {
 		int goalCount = 0;
 		overallTimePass += delta;
-		
+
 		if (overallTimePass > randomNum) {
-//			Sprite sprite = new ExtraLife();
+			Random random = new Random();
+			int randomLog = random.nextInt(this.logNum) + 1;
+			int i = 0;
+			ExtraLife newSprite = null;
+			for (Sprite sprite:sprites) {
+				if (sprite instanceof LifeRideable) {
+					LifeRideable lifeRideable = (LifeRideable) sprite;
+					i++;
+					if (i == randomLog) {
+						newSprite = new ExtraLife(lifeRideable.getX(), lifeRideable.getY());
+						lifeRideable.addExtraLife(newSprite);
+					}
+				}
+			}
+			sprites.add(newSprite);
 			overallTimePass = 0;
 		}
 		
-		for (Sprite sprite:sprites) {
-			if (sprite instanceof ExtraLife) {
-				ExtraLife extraLife = (ExtraLife) sprite;
-				if (extraLife.isDead()) {
-					sprites.remove(sprite);
+		for (int spriteNum = 0; spriteNum < sprites.size(); spriteNum++) {
+			Sprite sprite = sprites.get(spriteNum);
+
+			if (sprite instanceof LifeRideable) {
+				LifeRideable lifeRideable = (LifeRideable)sprite;
+				ArrayList<ExtraLife> extraLives = lifeRideable.getExtraLives();
+				for (int lifeNum = 0; lifeNum < extraLives.size(); lifeNum++) {
+					ExtraLife extraLife = extraLives.get(lifeNum);
+					if (extraLife.isDead()) {
+						lifeRideable.removeExtraLife(extraLife);
+						sprites.remove(extraLife);
+					}
 				}
 			}
 			
@@ -102,6 +124,7 @@ public class World {
 				
 			}
 		}
+		
 		if (goalCount == 0) {
 			sprites.clear();
 			init(LVONEFILE);
@@ -211,8 +234,6 @@ public class World {
 				
 		}
 	}
-	
-	
 	
 	public ArrayList<Sprite> getSprites() {
 		return sprites;

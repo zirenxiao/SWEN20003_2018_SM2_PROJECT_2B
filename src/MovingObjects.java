@@ -24,12 +24,7 @@ public class MovingObjects extends Sprite{
 		}else {
 			this.setPlusX(-delta * speed);
 		}
-		if (this.getX() > App.SCREEN_WIDTH) {
-			this.setX(-this.getImage().getWidth());
-		}
-		if (this.getX() < -this.getImage().getWidth()) {
-			this.setX(App.SCREEN_WIDTH);
-		}
+		this.adjustPosition();
 	}
 
 	/** Get speed of a moving object
@@ -49,5 +44,14 @@ public class MovingObjects extends Sprite{
 	
 	public void setGoRight(boolean goRight) {
 		this.goRight = goRight;
+	}
+	
+	public void adjustPosition() {
+		if (this.getX() > App.SCREEN_WIDTH + this.getImage().getWidth()/2) {
+			this.setX(-this.getImage().getWidth());
+		}
+		if (this.getX() < -this.getImage().getWidth()) {
+			this.setX(App.SCREEN_WIDTH + this.getImage().getWidth()/2);
+		}
 	}
 }
