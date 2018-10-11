@@ -101,6 +101,7 @@ public class World {
 				String[] splits = line.split(SPLITER);
 				float x = Integer.parseInt(splits[1]);
 				float y = Integer.parseInt(splits[2]);
+				boolean isMovingRight;
 			    switch (splits[0]) {
 			    case "water":
 			    	sprites.add(new Water(x, y));
@@ -109,8 +110,16 @@ public class World {
 			    	sprites.add(new Grass(x, y));
 			    	break;
 			    case "bus":
-			    	boolean isMovingRight = Boolean.parseBoolean(splits[3]);
+			    	isMovingRight = Boolean.parseBoolean(splits[3]);
 			    	sprites.add(new Obstacles(x, y, isMovingRight));
+			    	break;
+			    case "log":
+			    	isMovingRight = Boolean.parseBoolean(splits[3]);
+			    	sprites.add(new Log(x, y, isMovingRight));
+			    	break;
+			    case "longLog":
+			    	isMovingRight = Boolean.parseBoolean(splits[3]);
+			    	sprites.add(new LongLog(x, y, isMovingRight));
 			    	break;
 			    default:
 			    	break;
