@@ -2,70 +2,127 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
 
+/**
+ * @author Jiayin Cai
+ *
+ */
 public class World {
-	public static final int TILE_SIZE = 48;
-	private static final int GRASS_Y_1 =  672;
-	private static final int GRASS_Y_2 =  384;
-	private static final int WATER_START = 336;
-	private static final int WATER_END = 48;
-	private static final int ENEMY_START = 432;
-	private static final float ENEMY_1_STEP = 6.5f;
-	private static final float ENEMY_2_STEP = 5f;
-	private static final float ENEMY_3_STEP = 12f;
-	private static final int ENEMY_OFFSET_1 = 128;
-	private static final int ENEMY_OFFSET_2 = 48;
-	private static final int ENEMY_OFFSET_3 = 250;
-	private static final int ENEMY_OFFSET_4 = 64;
+	public static final float TILESIZE = 48;
+
+	private static final float WATERINITY = 336;
+	private static final float WATERFINALY = 48;
+	private static final float GRASSINITY = 672;
+	private static final float GRASSFINALY = 384;
+	private static final float PLAYERINITX = 512;
+	private static final float PLAYERINITY = 720;
+	private static final float BUSINITY = 432;
+	// Bus lines offsets and distances
+	private static final float LINE1OFFSET = 48;
+	private static final float LINE1DIS = 6.5f;
+	private static final float LINE2OFFSET = 0;
+	private static final float LINE2DIS = 5;
+	private static final float LINE3OFFSET = 64;
+	private static final float LINE3DIS = 12;
+	private static final float LINE4OFFSET = 128;
+	private static final float LINE4DIS = 5;
+	private static final float LINE5OFFSET = 250;
+	private static final float LINE5DIS = 6.5f;
+	// Current bus line
+	private int currentLine = 0;
+	// Player instance
+	private Player player;
 	
-	private ArrayList<Sprite> sprites = new ArrayList<>();
+	private static World world = null;
 	
-	public World() {
-		// create tiles
-		for (int x = 0; x < App.SCREEN_WIDTH; x += TILE_SIZE) {
-			sprites.add(Tile.createGrassTile(x, GRASS_Y_1));
-			sprites.add(Tile.createGrassTile(x, GRASS_Y_2));
-			for (int y = WATER_START; y > WATER_END; y -= TILE_SIZE) {
-				sprites.add(Tile.createWaterTile(x, y));
+	private ArrayList<Sprite> sprites = new ArrayList<Sprite>(); 
+	
+	/**
+	 * @throws SlickException
+	 */
+	public World(){
+		try {
+			// Grass and water
+			for (float y=WATERFINALY; y<WATERINITY; y+=TILESIZE) {
+				for (int x=0; x<App.SCREEN_WIDTH; x+=TILESIZE) {
+					sprites.add(new Water(x, y));
+				}
 			}
-		}
-		
-		// create player
-		sprites.add(new Player(App.SCREEN_WIDTH / 2, App.SCREEN_HEIGHT - TILE_SIZE));
-		
-		// create vehicles
-		for (int x = 0; x < App.SCREEN_WIDTH - TILE_SIZE; x += (int)(TILE_SIZE * ENEMY_1_STEP)) {
-			sprites.add(new Vehicle(x + ENEMY_OFFSET_2, ENEMY_START, false));
-			sprites.add(new Vehicle(x + ENEMY_OFFSET_3, ENEMY_START + TILE_SIZE * 4, false));
-		}
-		for (int x = 0; x < App.SCREEN_WIDTH - TILE_SIZE; x += (int)(TILE_SIZE * ENEMY_2_STEP)) {
-			sprites.add(new Vehicle(x, ENEMY_START + TILE_SIZE, true));
-			sprites.add(new Vehicle(x + ENEMY_OFFSET_1, ENEMY_START + TILE_SIZE * 3, true));
-		}
-		for (int x = 0; x < App.SCREEN_WIDTH - TILE_SIZE; x += (int)(TILE_SIZE * ENEMY_3_STEP)) {
-			sprites.add(new Vehicle(x + ENEMY_OFFSET_4, ENEMY_START + TILE_SIZE * 2, false));
+			for (int x=0; x<App.SCREEN_WIDTH; x+=TILESIZE) {
+				sprites.add(new Grass(x, GRASSINITY));
+				sprites.add(new Grass(x, GRASSFINALY));
+			}
+			// Player
+			player = new Player(PLAYERINITX, PLAYERINITY);
+			sprites.add(player);
+			// Bus lines
+			this.constructLine(LINE1OFFSET, LINE1DIS);
+			this.constructLine(LINE2OFFSET, LINE2DIS);
+			this.constructLine(LINE3OFFSET, LINE3DIS);
+			this.constructLine(LINE4OFFSET, LINE4DIS);
+			this.constructLine(LINE5OFFSET, LINE5DIS);
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
-	public void update(Input input, int delta) {
-		for (Sprite sprite : sprites) {
-			sprite.update(input, delta);
+	
+	/** Make the World into Singleton
+	 * @return
+	 */
+	public static World getInstance() {
+		if (world == null) {
+			world = new World();
 		}
-		
-		// loop over all pairs of sprites and test for intersection
-		for (Sprite sprite1: sprites) {
-			for (Sprite sprite2: sprites) {
-				if (sprite1 != sprite2
-						&& sprite1.collides(sprite2)) {
-					sprite1.onCollision(sprite2);
+		return world;
+	}
+	
+	/** Update all of the sprites in the game
+	 * @param input
+	 * @param delta
+	 */
+	public void update(Input input, int delta) {
+		for (Sprite sprite:sprites) {
+			sprite.update(input, delta);
+			for (Sprite other:sprites) {
+				if (sprite.isContactWith(other)) {
+					sprite.contactSprite(other);
 				}
 			}
 		}
 	}
 	
+	/** Draw all of the sprites in the game
+	 * @param g
+	 */
 	public void render(Graphics g) {
-		for (Sprite sprite : sprites) {
+		for (Sprite sprite:sprites) {
 			sprite.render();
 		}
+	}
+	
+	/** Construct a bus line
+	 * @param offset
+	 * @param distance
+	 * @throws SlickException
+	 */
+	private void constructLine(float offset, float distance)
+			throws SlickException {
+		// Only even line moves from left to right
+		boolean right = (currentLine % 2) != 0;
+		for (float x=offset; x<App.SCREEN_WIDTH; x+=distance*TILESIZE) {
+			sprites.add(new Obstacles(x, 
+					BUSINITY + TILESIZE * currentLine, right));
+		}
+		currentLine++;
+	}
+	
+	/** Add a sprite into list
+	 * @param sprite
+	 */
+	public void addSprite(Sprite sprite) {
+		sprites.add(sprite);
 	}
 }
