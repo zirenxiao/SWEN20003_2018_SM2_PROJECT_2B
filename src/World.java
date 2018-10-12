@@ -25,6 +25,9 @@ public class World {
 	private int overallTimePass = 0;
 	private int randomNum;
     private int logNum = 0;
+    
+    private boolean stageZeroClear = false;
+    private boolean stageOneClear = false;
 	
 	private static World world = null;
 	
@@ -128,9 +131,13 @@ public class World {
 			}
 		}
 		
-		if (goalCount == 0) {
+		if (goalCount == 0 && !stageZeroClear) {
 			sprites.clear();
 			init(LVONEFILE);
+			stageZeroClear = true;
+		}else if (goalCount == 0 && stageZeroClear) {
+			sprites.clear();
+			stageOneClear = true;
 		}
 	}
 	
@@ -140,6 +147,9 @@ public class World {
 	public void render(Graphics g) {
 		for (Sprite sprite:sprites) {
 			sprite.render();
+		}
+		if (stageOneClear) {
+			g.drawString("YOU WIN!", App.SCREEN_HEIGHT / 2, App.SCREEN_WIDTH / 2);
 		}
 	}
 	
