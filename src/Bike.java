@@ -14,8 +14,9 @@ public class Bike extends Enemy {
 	}
 
 	/**
-	 * The bike reverse its direction when it is going left and is less than the
-	 * left bound, or is going right and is more than the right bound
+	 * The bike reverse its direction when it is going left and is 
+	 * less than the left bound, or is going right and is more 
+	 * than the right bound
 	 */
 	public void update(Input input, int delta) {
 		super.update(input, delta);

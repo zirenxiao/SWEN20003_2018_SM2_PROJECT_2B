@@ -6,7 +6,8 @@ public class MovingObjects extends Sprite {
 	private float speed;
 	private boolean goRight;
 
-	public MovingObjects(String imageSrc, float x, float y, float speed, boolean goRight) throws SlickException {
+	public MovingObjects(String imageSrc, float x, float y, 
+			float speed, boolean goRight) throws SlickException {
 		super(imageSrc, x, y);
 		// TODO Auto-generated constructor stub
 		this.speed = speed;
@@ -51,14 +52,17 @@ public class MovingObjects extends Sprite {
 	}
 
 	/**
-	 * Adjust the position of the moving object when it goes out of the screen
+	 * Adjust the position of the moving object when it goes out 
+	 * of the screen
 	 */
 	public void adjustPosition() {
-		if (this.getX() > App.SCREEN_WIDTH + this.getImage().getWidth() / 2) {
+		if (this.getX() > App.SCREEN_WIDTH 
+				+ this.getImage().getWidth() / 2) {
 			this.setX(-this.getImage().getWidth());
 		}
 		if (this.getX() < -this.getImage().getWidth()) {
-			this.setX(App.SCREEN_WIDTH + this.getImage().getWidth() / 2);
+			this.setX(App.SCREEN_WIDTH 
+					+ this.getImage().getWidth() / 2);
 		}
 	}
 }

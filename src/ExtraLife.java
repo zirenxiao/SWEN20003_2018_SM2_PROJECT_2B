@@ -72,14 +72,23 @@ public class ExtraLife extends Sprite {
 		}
 	}
 
+	/** Whether this object is dead
+	 * @return
+	 */
 	public boolean isDead() {
 		return (life >= LIFESPAN);
 	}
 
+	/** Moving on reverse direction
+	 * 
+	 */
 	public void reverseDirection() {
 		moveRightOnLog = !moveRightOnLog;
 	}
 
+	/** Reset the position of the extra life
+	 * @param distance
+	 */
 	public void resetPosition(float distance) {
 		this.setPlusX(distance);
 	}

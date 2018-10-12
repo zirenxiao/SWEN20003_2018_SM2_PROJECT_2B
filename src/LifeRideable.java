@@ -7,7 +7,8 @@ public class LifeRideable extends Rideable {
 
 	private ArrayList<ExtraLife> extraLives = new ArrayList<ExtraLife>();
 
-	public LifeRideable(String imageSrc, float x, float y, float speed, boolean goRight) throws SlickException {
+	public LifeRideable(String imageSrc, float x, float y, float speed, 
+			boolean goRight) throws SlickException {
 		super(imageSrc, x, y, speed, goRight);
 		// TODO Auto-generated constructor stub
 	}
@@ -43,14 +44,14 @@ public class LifeRideable extends Rideable {
 	}
 
 	/**
-	 * adjust the position of the log and extra lives when the log moves out of the
-	 * screen
+	 * adjust the position of the log and extra lives when the log moves
+	 * out of the screen
 	 */
 	public void adjustPosition() {
 		boolean haveNewPosition = false;
 		float newPosition = this.getX();
 
-		if (this.getX() > App.SCREEN_WIDTH + this.getImage().getWidth() / 2) {
+		if (this.getX() > App.SCREEN_WIDTH + this.getImage().getWidth() / 2){
 			newPosition = -this.getImage().getWidth() / 2;
 			haveNewPosition = true;
 		}
@@ -69,6 +70,10 @@ public class LifeRideable extends Rideable {
 		}
 	}
 
+	/* If contact an extra life, the extra life will move
+	 * along with the current object
+	 * @see Rideable#contactSprite(Sprite, int)
+	 */
 	public void contactSprite(Sprite other, int delta) {
 		super.contactSprite(other, delta);
 		if (other instanceof ExtraLife) {

@@ -4,7 +4,8 @@ import utilities.BoundingBox;
 
 public class Rideable extends MovingObjects {
 
-	public Rideable(String imageSrc, float x, float y, float speed, boolean goRight) throws SlickException {
+	public Rideable(String imageSrc, float x, float y,
+			float speed, boolean goRight) throws SlickException {
 		super(imageSrc, x, y, speed, goRight);
 		// TODO Auto-generated constructor stub
 	}

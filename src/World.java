@@ -20,8 +20,8 @@ public class World {
     private static final String LVZEROFILE = "assets/levels/0.lvl";
     private static final String LVONEFILE = "assets/levels/1.lvl";
     private static final String SPLITER = ",";
-    private static final int RANDOMMIN = 25000;
-	private static final int RANDOMMAX = 35000;
+    private static final int RANDOMMIN = 2500;
+	private static final int RANDOMMAX = 3500;
 	private int overallTimePass = 0;
 	private int randomNum;
     private int logNum = 0;
@@ -40,7 +40,8 @@ public class World {
 	 */
 	public World(){
 		Random random = new Random();
-		this.randomNum = random.nextInt((RANDOMMAX - RANDOMMIN) + 1) + RANDOMMIN;
+		this.randomNum = 
+				random.nextInt((RANDOMMAX - RANDOMMIN) + 1) + RANDOMMIN;
 //		System.out.println(this.randomNum);
 		
 		init(LVZEROFILE);
@@ -76,6 +77,10 @@ public class World {
 	 * @throws SlickException 
 	 */
 	public void update(Input input, int delta) throws SlickException {
+		if (stageOneClear) {
+			return;
+		}
+		
 		int goalCount = 0;
 		overallTimePass += delta;
 
@@ -106,8 +111,10 @@ public class World {
 			//remove dead extra lives
 			if (sprite instanceof LifeRideable) {
 				LifeRideable lifeRideable = (LifeRideable)sprite;
-				ArrayList<ExtraLife> extraLives = lifeRideable.getExtraLives();
-				for (int lifeNum = 0; lifeNum < extraLives.size(); lifeNum++) {
+				ArrayList<ExtraLife> extraLives = 
+						lifeRideable.getExtraLives();
+				for (int lifeNum = 0; lifeNum < extraLives.size(); 
+						lifeNum++) {
 					ExtraLife extraLife = extraLives.get(lifeNum);
 					if (extraLife.isDead()) {
 						lifeRideable.removeExtraLife(extraLife);
@@ -149,7 +156,8 @@ public class World {
 			sprite.render();
 		}
 		if (stageOneClear) {
-			g.drawString("YOU WIN!", App.SCREEN_HEIGHT / 2, App.SCREEN_WIDTH / 2);
+			g.drawString("YOU WIN!", App.SCREEN_HEIGHT / 2, 
+					App.SCREEN_WIDTH / 2);
 		}
 	}
 	
@@ -161,6 +169,9 @@ public class World {
 		sprites.add(sprite);
 	}
 	
+	/** Read level file from a path
+	 * @param filePath
+	 */
 	public void readFile(String filePath) {
 		File file = new File(filePath);
 		FileReader fr;
@@ -231,7 +242,10 @@ public class World {
 		}
 		
 	}
-	
+
+	/** The initialise the goal state
+	 * @throws SlickException
+	 */
 	private void initGoal() throws SlickException {
 		for (int i=0; i<=App.SCREEN_WIDTH; i+=TILESIZE) {
 			boolean found = false;
@@ -248,11 +262,20 @@ public class World {
 		}
 	}
 	
+	/** Get all sprites 
+	 * @return
+	 */
 	public ArrayList<Sprite> getSprites() {
 		return sprites;
 	}
 
 
+	/** Update the position of the tree,
+	 * so we can generate the position of 
+	 * goals
+	 * @param x
+	 * @param y
+	 */
 	private void updateTreePos(float x, float y) {
 		if (Math.round(y) == TILESIZE) {
 			treePosition.add(Math.round(x));

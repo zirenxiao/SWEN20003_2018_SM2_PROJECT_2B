@@ -16,6 +16,12 @@ public class Turtles extends Rideable {
 		// TODO Auto-generated constructor stub
 	}
 	
+	/* Every 7 seconds, the turtles should disappear under water 
+	 * and not be displayed on screen; when they are not visible, 
+	 * they do not protect the player from the water. After 2 seconds 
+	 * underwater, they should resurface and be visible again.
+	 * @see MovingObjects#update(org.newdawn.slick.Input, int)
+	 */
 	public void update(Input input, int delta) {
 		// How can this one method deal with different types of sprites?
 		super.update(input, delta);
@@ -34,12 +40,19 @@ public class Turtles extends Rideable {
 		}
 	}
 	
+	/* Render only the turtle is visible
+	 * @see Sprite#render()
+	 */
 	public void render() {
 		if (vis) {
 			super.render();
 		}
 	}
 	
+	/* Only in visible state can be ride, otherwise
+	 * the player will lose life
+	 * @see Rideable#contactSprite(Sprite, int)
+	 */
 	public void contactSprite(Sprite other, int delta) {
 		if (vis) {
 			if (other instanceof Player) {

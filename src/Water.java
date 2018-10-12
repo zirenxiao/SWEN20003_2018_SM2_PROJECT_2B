@@ -8,6 +8,12 @@ public class Water extends Sprite {
 		// TODO Auto-generated constructor stub
 	}
 	
+	/* Not completed
+	 * the player should lose life when contact
+	 * the water directly. If the player is
+	 * on an object, it will not lose life
+	 * @see Sprite#contactSprite(Sprite, int)
+	 */
 	public void contactSprite(Sprite other, int delta) {
 		boolean isOnOther = false;
 		
